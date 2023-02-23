@@ -769,6 +769,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#using-embeddings" class="md-nav__link">
+    Using Embeddings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cannot-load-embedding-for-trigger-it-was-trained-on-a-model-with-token-dimension-1024-but-the-current-model-has-token-dimension-768" class="md-nav__link">
+    Cannot load embedding for &lt;trigger&gt;. It was trained on a model with token dimension 1024, but the current model has token dimension 768
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#reading" class="md-nav__link">
     Reading
   </a>
@@ -1531,6 +1558,15 @@ passing the <code>--help</code> argument:</p>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">       </span>--mixed_precision<span class="o">=</span>fp16<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">       </span>--only_save_embeds
 </code></pre></div></p>
+<h2 id="using-embeddings">Using Embeddings<a class="headerlink" href="#using-embeddings" title="Permanent link">#</a></h2>
+<p>After training completes, the resultant embeddings will be saved into your <code>$INVOKEAI_ROOT/embeddings/&lt;trigger word&gt;/learned_embeds.bin</code>.</p>
+<p>These will be automatically loaded when you start InvokeAI.</p>
+<p>Add the trigger word, surrounded by angle brackets, to use that embedding. For example, if your trigger word was <code>terence</code>, use <code>&lt;terence&gt;</code> in prompts. This is the same syntax used by the HuggingFace concepts library.</p>
+<p><strong>Note:</strong> <code>.pt</code> embeddings do not require the angle brackets.</p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">#</a></h2>
+<h3 id="cannot-load-embedding-for-trigger-it-was-trained-on-a-model-with-token-dimension-1024-but-the-current-model-has-token-dimension-768"><code>Cannot load embedding for &lt;trigger&gt;. It was trained on a model with token dimension 1024, but the current model has token dimension 768</code><a class="headerlink" href="#cannot-load-embedding-for-trigger-it-was-trained-on-a-model-with-token-dimension-1024-but-the-current-model-has-token-dimension-768" title="Permanent link">#</a></h3>
+<p>Messages like this indicate you trained the embedding on a different base model than the currently selected one.</p>
+<p>For example, in the error above, the training was done on SD2.1 (768x768) but it was used on SD1.5 (512x512).</p>
 <h2 id="reading">Reading<a class="headerlink" href="#reading" title="Permanent link">#</a></h2>
 <p>For more information on textual inversion, please see the following
 resources:</p>
@@ -1552,7 +1588,7 @@ resources:</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 6, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 18, 2023</span>
       
         <br>
         Created:
