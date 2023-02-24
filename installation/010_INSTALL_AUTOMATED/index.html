@@ -858,6 +858,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#out-of-memory-issues" class="md-nav__link">
+    Out of Memory Issues
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#other-problems" class="md-nav__link">
     Other Problems
   </a>
@@ -1209,6 +1216,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../other/TRANSLATION/" class="md-nav__link">
+        Translation
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -1445,7 +1466,10 @@ any time to tweak your system. Here are the options you can adjust:</p>
 <li>
 <p><strong><em>NSFW checker</em></strong>
   If checked, InvokeAI will test images for potential sexual content
-  and blur them out if found.</p>
+  and blur them out if found. Note that the NSFW checker consumes
+  an additional 0.6 GB of VRAM on top of the 2-3 GB of VRAM used
+  by most image models. If you have a low VRAM GPU (4-6 GB), you
+  can reduce out of memory errors by disabling the checker.</p>
 </li>
 <li>
 <p><strong><em>HuggingFace Access Token</em></strong>
@@ -1666,6 +1690,49 @@ script) and run this command:</p>
 the <a href="https://github.com/invoke-ai/InvokeAI/issues">InvokeAI Issues</a> section, or
 visit our <a href="https://discord.gg/ZmtBAhwWhy">Discord Server</a> for interactive
 assistance.</p>
+<h3 id="out-of-memory-issues">Out of Memory Issues<a class="headerlink" href="#out-of-memory-issues" title="Permanent link">#</a></h3>
+<p>The models are large, VRAM is expensive, and you may find yourself
+faced with Out of Memory errors when generating images. Here are some
+tips to reduce the problem:</p>
+<ul>
+<li><strong>4 GB of VRAM</strong></li>
+</ul>
+<p>This should be adequate for 512x512 pixel images using Stable Diffusion 1.5
+and derived models, provided that you <strong>disable</strong> the NSFW checker. To
+disable the filter, do one of the following:</p>
+<ul>
+<li>Select option (6) "<em>change InvokeAI startup options</em>" from the
+     launcher. This will bring up the console-based startup settings
+     dialogue and allow you to unselect the "NSFW Checker" option.</li>
+<li>Start the startup settings dialogue directly by running
+     <code>invokeai-configure --skip-sd-weights --skip-support-models</code>
+     from the command line.</li>
+<li>Find the <code>invokeai.init</code> initialization file in the InvokeAI root
+     directory, open it in a text editor, and change <code>--nsfw_checker</code>
+     to <code>--no-nsfw_checker</code></li>
+</ul>
+<p>If you are on a CUDA system, you can realize significant memory
+savings by activating the <code>xformers</code> library as described above. The
+downside is <code>xformers</code> introduces non-deterministic behavior, such
+that images generated with exactly the same prompt and settings will
+be slightly different from each other. See above for more information.</p>
+<ul>
+<li><strong>6 GB of VRAM</strong></li>
+</ul>
+<p>This is a border case. Using the SD 1.5 series you should be able to
+generate images up to 640x640 with the NSFW checker enabled, and up to
+1024x1024 with it disabled and <code>xformers</code> activated. </p>
+<p>If you run into persistent memory issues there are a series of
+environment variables that you can set before launching InvokeAI that
+alter how the PyTorch machine learning library manages memory.  See
+<a href="https://pytorch.org/docs/stable/notes/cuda.html#memory-management">https://pytorch.org/docs/stable/notes/cuda.html#memory-management</a> for
+a list of these tweaks.</p>
+<ul>
+<li><strong>12 GB of VRAM</strong></li>
+</ul>
+<p>This should be sufficient to generate larger images up to about
+1280x1280. If you wish to push further, consider activating
+<code>xformers</code>.</p>
 <h3 id="other-problems">Other Problems<a class="headerlink" href="#other-problems" title="Permanent link">#</a></h3>
 <p>If you run into problems during or after installation, the InvokeAI team is
 available to help you. Either create an
@@ -1704,7 +1771,7 @@ version (recommended), follow these steps:</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 20, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 24, 2023</span>
       
         <br>
         Created:
